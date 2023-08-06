@@ -18,6 +18,7 @@ import java.util.InputMismatchException;
  *
  */
 
+
 public class QuickSorter extends AbstractSorter
 {
 
@@ -31,8 +32,11 @@ public class QuickSorter extends AbstractSorter
 	 */
 	public QuickSorter(Point[] pts)
 	{
+		// superclass constructor
 		super(pts);
-		// Done
+
+		// Set the instance variable algorithm of the superclass
+		algorithm = "quicksort";
 	}
 
 
@@ -43,8 +47,7 @@ public class QuickSorter extends AbstractSorter
 	@Override
 	public void sort()
 	{
-		// Done
-		quickSortRec(0, points.length - 1);
+		quickSortRec(0, this.points.length - 1);
 	}
 
 
@@ -56,22 +59,21 @@ public class QuickSorter extends AbstractSorter
 	 */
 	private void quickSortRec(int first, int last)
 	{
-		//Done
-		if(first < last)
+		if (first >= last)
 		{
-			int p = partition(first, last);
-
-			quickSortRec(first, p - 1);
-			quickSortRec(p + 1, last);
-		}
-		else
 			return;
+		}
 
+		int p = partition(first, last);
+
+		quickSortRec(first, p - 1);
+		quickSortRec(p + 1, last);
 	}
 
 
 	/**
-	 * Operates on the subarray of points[] with indices between first and last.
+	 * Operates on the subarray of points[] with indices between first and last,
+	 * under the condition 0 <= first <= last <= arr.length
 	 *
 	 * @param first
 	 * @param last
@@ -79,25 +81,26 @@ public class QuickSorter extends AbstractSorter
 	 */
 	private int partition(int first, int last)
 	{
-		// Done
+		// Use the last element as the partition
+		Point partition = this.points[last];
 
-		Point pivot = points[last];
-		int i = (first - 1);
-
-		for(int j = first; j <= last - 1; j++)
+		int i = first - 1;
+		for (int j = first; j < last; j++)
 		{
-			if(points[j].compareTo(pivot) <= 0)
+			if (pointComparator.compare(this.points[j], partition) <= 0) 
 			{
 				i++;
-				swap(i, j);
+				super.swap(i, j);
 			}
 		}
-		swap(i + 1, last);
-		return i + 1;
+
+		// Now put the pivot in position i+1
+		super.swap(i + 1, last);
+		return(i + 1);
 	}
 
 
 
 
-	// Other private methods if needed ...
+	// Other private methods in case you need ...
 }
