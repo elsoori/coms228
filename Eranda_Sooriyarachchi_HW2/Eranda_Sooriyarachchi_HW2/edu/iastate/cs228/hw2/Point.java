@@ -11,7 +11,7 @@ public class Point implements Comparable<Point>
 	private int x;
 	private int y;
 
-	public static boolean xORy;  // compare x coordinates if xORy == true and y coordinates otherwise
+	public static boolean xORy;  // compare x coordinates if xORy == true else y coordinates
 	// To set its value, use Point.xORy = true or false.
 
 	public Point()  // default constructor
@@ -48,7 +48,7 @@ public class Point implements Comparable<Point>
 	 */
 	public static void setXorY(boolean xORy)
 	{
-		// Done
+
 		if(xORy == true)
 			Point.xORy = true;
 		else
@@ -100,7 +100,7 @@ public class Point implements Comparable<Point>
 	@Override
 	public String toString()
 	{
-		// Done
+		
 		return  "(" + x + ", " + y + ")";
 	}
 }
