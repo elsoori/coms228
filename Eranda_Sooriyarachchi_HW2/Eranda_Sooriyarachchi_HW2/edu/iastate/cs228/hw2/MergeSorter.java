@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 
 /**
  *
- * @author Eranda Sooriyrachchi
+ * @author Eranda Sooriyarachchi
  *
  */
 
@@ -19,8 +19,7 @@ import java.util.InputMismatchException;
 
 public class MergeSorter extends AbstractSorter
 {
-	// Other private instance variables if needed
-
+	// Other private instance variables if you need ...
 
 	/**
 	 * Constructor takes an array of points.  It invokes the superclass constructor, and also
@@ -30,8 +29,11 @@ public class MergeSorter extends AbstractSorter
 	 */
 	public MergeSorter(Point[] pts)
 	{
+		// superclass constructor
 		super(pts);
-		// Done
+
+		// Set the instance variable algorithm
+		algorithm = "mergesort";
 	}
 
 
@@ -42,8 +44,7 @@ public class MergeSorter extends AbstractSorter
 	@Override
 	public void sort()
 	{
-		// Done
-		mergeSortRec(points);
+		mergeSortRec(this.points);
 	}
 
 
@@ -56,72 +57,95 @@ public class MergeSorter extends AbstractSorter
 	 */
 	private void mergeSortRec(Point[] pts)
 	{
-		if(pts.length <=1)
+		// The length of the array pts
+		int n = pts.length;
+		int m = n / 2;
+
+		// If n <= 1, there is nothing to sort
+		if (n <= 1)
 		{
 			return;
 		}
 
-		int n = points.length; // length of array
-		int l = n / 2; // length of left sub array or mid point
-		int r = n - l; // length of right sub array
+		// Create the new arrays for the left and right side
+		Point[] left = new Point[m];
+		Point[] right = new Point[n-m];
 
-		// left and right sub arrays
-		Point[] leftSub = new Point[l];
-		Point[] rightSub = new Point[r];
-
-		for(int i = 0; i < l; i++) // Copy left side of array to left sub array
+		//fill the left array
+		for (int i = 0; i < m; i++)
 		{
-			leftSub[i] = points[i];
+			left[i] = pts[i];
 		}
 
-		for(int j = n - 1; j >= l; j--) // start from the end and go down to the median
+		// fill the right array
+		int c = 0;
+		for (int i = m; i < n; i++)
 		{
-			rightSub[j] = points[j];
+			right[c] = pts[i];
+			c++;
 		}
 
-		mergeSortRec(leftSub); // sort left half
-		mergeSortRec(rightSub); // sort right half
-		merge(leftSub, rightSub); // merges the two sorted halves
+		// Recursively call mergeSortRec() for each new array
+		mergeSortRec(left);
+		mergeSortRec(right);
+
+		//  call merge to combine two sorted arrays
+		Point[] temp = new Point[pts.length];
+		temp = merge(left, right);
+
+		for (int i = 0; i < temp.length; i++) {
+			pts[i] = temp[i];
+		}
+
 	}
 
-
-	private Point[] merge(Point[] left, Point[] right)
+	/**
+	 * Merge two Point arrays
+	 * @param B the first Point array
+	 * @param C the second Point array
+	 */
+	private Point[] merge(Point[] B, Point[] C)
 	{
+		int p = B.length;
+		int q = C.length;
 
-		Point[] mergedArray = new Point[left.length + right.length]; // merged array
+		// Create a new Point array
+		Point[] Q = new Point[p+q];
 
-		int i = 0; // starting index in left
-		int j = 0; // starting index in right
-		final int leftMax = left.length; // max index in left subarray
-		final int rightMax = right.length; // max index in right subaray
-		int k = 0; // index in merged array
+		int i = 0; int j = 0; int iter = 0;
+		while ((i < p) && (j < q))
+		{
 
-		while (i < leftMax && j < rightMax) {
-			if (pointComparator.compare(left[i], right[j]) == 0 // checks if they are equal
-					|| pointComparator.compare(left[i], right[j]) < 0) { // checks if first is less than second
-				mergedArray[k] = left[i];
-				++i;
-				++k;
-			} else {
-				mergedArray[k] = right[j];
-				++j;
-				++k;
+			if (pointComparator.compare(B[i], C[j]) <= 0)
+			{
+				Q[iter++] = B[i];
+				i++;
+			}
+			else
+			{
+				Q[iter++] = C[j];
+				j++;
 			}
 		}
-		while (i < leftMax) {
-			mergedArray[k] = left[i];
-			++i;
-			++k;
+
+		if (i >= p)
+		{
+			for (int z = j; z < q; z++)
+			{
+				Q[iter++] = C[z];
+			}
 		}
-		while (j < rightMax) {
-			mergedArray[k] = right[j];
-			++j;
-			++k;
+		else
+		{
+			for (int z = i; z < p; z++)
+			{
+				Q[iter++] = B[z];
+			}
 		}
 
-		return mergedArray;
+		return(Q);
 	}
 
-	
+
 
 }
