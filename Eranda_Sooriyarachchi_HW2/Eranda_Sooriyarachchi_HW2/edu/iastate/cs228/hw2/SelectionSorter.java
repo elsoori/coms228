@@ -30,9 +30,11 @@ public class SelectionSorter extends AbstractSorter
 	 */
 	public SelectionSorter(Point[] pts)
 	{
+		//superclass constructor
 		super(pts);
-		// Done
 
+		// Set the instance variable algorithm of the superclass
+		algorithm = "selection sort";
 	}
 
 
@@ -43,19 +45,23 @@ public class SelectionSorter extends AbstractSorter
 	@Override
 	public void sort()
 	{
-		// Done
-		int n =  points.length;
-		for(int i = 0; i < n-1; i++)
+		for (int i = 0; i < this.points.length - 1; i++)
 		{
+
 			int minIndex = i;
-			for(int j = i+1; j < n; j++)
+
+			for (int j = i + 1; j < this.points.length; j++)
 			{
-				if(pointComparator.compare(points[j], points[minIndex]) < 0) // checks if point at index j is less than point at minIndex.
+				if (pointComparator.compare(this.points[j], this.points[minIndex]) < 0)
 				{
 					minIndex = j;
 				}
 			}
-			swap(i, minIndex);
+
+			// Swap them
+			super.swap(i, minIndex);
 		}
+
+
 	}
 }
