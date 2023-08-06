@@ -30,8 +30,11 @@ public class InsertionSorter extends AbstractSorter
 	 */
 	public InsertionSorter(Point[] pts)
 	{
+		// superclass constructor
 		super(pts);
-		// Done
+
+		// Set the instance variable algorithm
+		algorithm = "insertion sort";
 	}
 
 
@@ -41,19 +44,19 @@ public class InsertionSorter extends AbstractSorter
 	@Override
 	public void sort()
 	{
-		// Done
-		for(int i = 1; i < points.length; i++)
+		int n = points.length;
+		for (int i = 1; i < n; i++)
 		{
 			Point temp = points[i];
-			int j = i- 1;
-
-			while(j > -1 && pointComparator.compare(points[j], temp) == 1)
+			int j = i - 1;
+			while((j > -1) && (pointComparator.compare(points[j], temp) > 0))
 			{
 				points[j + 1] = points[j];
-				--j;
+				j--;
 			}
-			points[j + 1] = temp;
-		}
 
+			points[j + 1] = temp;
+
+		}
 	}
 }
